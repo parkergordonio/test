@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-./sbt-dist/bin/sbt "$@"
+./sbt-dist/bin/sbt master "$@"
