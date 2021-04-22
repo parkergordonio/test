@@ -1,6 +1,7 @@
 package example
 
-import scala.util.control.Breaks._
+import scala.collection.mutable
+import scala.util.control.Breaks.{breakable, break}
 
 object Hello extends App {
   println("Sum for 7: Should be: 0, 3; " + twoSumNaive(Array(1, 3, 5, 6, 2, 5), 7).mkString(","))
@@ -9,17 +10,18 @@ object Hello extends App {
 
   def twoSumNaive(nums: Array[Int], target: Int): Array[Int] = {
     var pair: Array[Int] = null
-    var rem: Map[Int, Int] = Map.empty
+    val rem: mutable.Map[Int, Int] = mutable.Map.empty
 
     breakable {
-      nums.zipWithIndex.foreach { case (value, index) =>
+      nums.indices.foreach { i =>
+        val value = nums(i)
         rem.get(value) match {
           case Some(remMatch) =>
-            pair = Array(remMatch, index)
+            pair = Array(remMatch, i)
             break()
           case _ =>
         }
-        rem = rem + ((target - value) -> index)
+        rem += ((target - value) -> i)
       }
     }
 
